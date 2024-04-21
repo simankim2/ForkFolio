@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  ForkFolio
+{% endblock title %}
+
+{% block navbar_custom_links %}
+  <a class="one" href="{% url 'recipe_list' %}">Main Page</a>
+{% endblock %}
+
+{% block content %}
+  <main>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+    <button>Create</button>
+    </form>
+  </main>
+{% endblock content %}

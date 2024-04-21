@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  ForkFolio recipes
+{% endblock title %}
+
+{% block content %}
+  <main>
+    <h1>Edit Recipe{{ recipe.title }}</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+    <button>Save</button>
+    </form>
+  </main>
+{% endblock content %}

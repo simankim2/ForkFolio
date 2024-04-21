@@ -1,0 +1,121 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 10px;
+}
+
+footer {
+  font-weight: bold;
+  padding: 15px;
+  background-color:rgb(151, 188, 41);
+}
+
+img {
+  height: 200px;
+}
+
+
+
+nav {
+  color: white;
+  border-bottom: black, 1px;
+  padding: 15px;
+  background-color:rgb(209, 72, 26)
+
+}
+
+a.one{
+color:white;
+}
+
+a {
+text-decoration: none;
+padding-top: 20px;
+padding-bottom: 20px;
+color: rgb(19, 129, 43)
+}
+
+h3 {
+color:rgb(188, 110, 41)
+}
+
+a:hover {
+color: blue
+}
+
+.container {
+display: grid;
+grid-template-columns: auto auto auto auto;
+grid-gap: 10px;
+padding-top: 25px;
+padding-bottom: 50px;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Adjusts number of columns based on the container width */
+  grid-gap: 5px;  /* Minimal gap between grid items */
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.recipe-grid > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: start; /* Aligns content to start */
+  align-items: center;  /* Centers the content horizontally */
+  max-width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  background: white;
+  height: 100%;  /* Each item takes full height of the grid cell */
+}
+
+.recipe-grid img {
+  width: 100%;  /* Makes the image width responsive to the container */
+  height: auto; /* Initially set to auto to maintain aspect ratio */
+  aspect-ratio: 1 / 1;  /* Ensures the image is always square */
+  object-fit: cover; /* Crop to cover the area, maintaining aspect ratio */
+  display: block; /* Removes extra space below the image */
+}
+
+@media (max-width: 600px) {
+  .recipe-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .recipe-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+
+h1 {
+letter-spacing: -1px;
+font-weight: bold;
+color:rgb(9, 90, 9)
+}
+
+h2 {
+font-weight: bold;
+letter-spacing: -1px
+}
+
+tr:nth-child(even) {
+background-color: rgb(198, 196, 196)
+}

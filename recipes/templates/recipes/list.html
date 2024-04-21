@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  ForkFolio Recipes
+{% endblock title %}
+
+{% block navbar_custom_links %}
+  <a class="one" href="{% url 'create_recipe' %}">Create a Recipe</a>
+{% endblock %}
+
+{% block content %}
+  <main>
+    <h1>ForkFolio Recipes</h1>
+    <h2>All the food that's fit to eat</h2>
+    <div class="recipe-grid">
+      {% for recipe in recipe_list %}
+        <div class="recipe-grid">
+          <h3>
+            <a href="{% url 'show_recipe' recipe.id %}">{{ recipe.title }}</a>
+          </h3>
+          <img src="{{ recipe.picture }}" alt="Picture of {{ recipe.title }}" />
+          <div>4.3 stars</div>
+          <div>{{ recipe.created_on|date:"F j, Y" }}</div>
+        </div>
+      {% empty %}
+        <p>There are no recipes.</p>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock content%}
