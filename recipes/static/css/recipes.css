@@ -3,13 +3,13 @@ html {
 }
 
 body {
-  height: 100%;
   margin: 0;
   padding: 0;
   font-size: 20px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
 main {
@@ -20,78 +20,97 @@ main {
 footer {
   font-weight: bold;
   padding: 15px;
-  background-color:rgb(151, 188, 41);
+  background-color: rgb(151, 188, 41);
 }
 
 img {
   height: 200px;
 }
 
-
-
-nav {
-  color: white;
-  border-bottom: black, 1px;
-  padding: 15px;
-  background-color:rgb(209, 72, 26)
-
-}
-
-a.one{
-color:white;
-}
-
-a {
-text-decoration: none;
-padding-top: 20px;
-padding-bottom: 20px;
-color: rgb(19, 129, 43)
-}
-
-h3 {
-color:rgb(188, 110, 41)
-}
-
-a:hover {
-color: blue
-}
-
-.container {
-display: grid;
-grid-template-columns: auto auto auto auto;
-grid-gap: 10px;
-padding-top: 25px;
-padding-bottom: 50px;
-}
-
-.recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Adjusts number of columns based on the container width */
-  grid-gap: 5px;  /* Minimal gap between grid items */
-  padding-top: 10px;
-  padding-bottom: 20px;
-}
-
-.recipe-grid > div {
+/* Navbar styles */
+.nav-container {
   display: flex;
-  flex-direction: column;
-  justify-content: start; /* Aligns content to start */
-  align-items: center;  /* Centers the content horizontally */
-  max-width: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  background: white;
-  height: 100%;  /* Each item takes full height of the grid cell */
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  background-color: rgb(209, 72, 26);
 }
 
-.recipe-grid img {
-  width: 100%;  /* Makes the image width responsive to the container */
-  height: auto; /* Initially set to auto to maintain aspect ratio */
-  aspect-ratio: 1 / 1;  /* Ensures the image is always square */
-  object-fit: cover; /* Crop to cover the area, maintaining aspect ratio */
-  display: block; /* Removes extra space below the image */
+.nav-link, .dropbtn {
+  color: white;
+  text-decoration: none;
+  padding: 14px 16px;
+  display: inline-block;
 }
 
+.nav-link:hover, .dropbtn:hover {
+  background-color: #f44336; /* darker shade for hover effect */
+}
+
+/* Dropdown button */
+.dropbtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+/* Dropdown Content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0; /* Aligns the dropdown menu to the right */
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Logout form styled as a link */
+.dropdown-content form {
+  display: block;
+  padding: 12px 16px;
+}
+
+.dropdown-content form button {
+  background: none;
+  font-size: 20px;
+  border: none;
+  color: black;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-content form button:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
 @media (max-width: 600px) {
   .recipe-grid {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -104,18 +123,66 @@ padding-bottom: 50px;
   }
 }
 
+.container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+  padding-top: 25px;
+  padding-bottom: 50px;
+  }
 
-h1 {
-letter-spacing: -1px;
-font-weight: bold;
-color:rgb(9, 90, 9)
-}
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Adjusts number of columns based on the container width */
+    grid-gap: 5px;  /* Minimal gap between grid items */
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
 
-h2 {
-font-weight: bold;
-letter-spacing: -1px
-}
+  .recipe-grid > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: start; /* Aligns content to start */
+    align-items: center;  /* Centers the content horizontally */
+    max-width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background: white;
+    height: 100%;  /* Each item takes full height of the grid cell */
+  }
 
-tr:nth-child(even) {
-background-color: rgb(198, 196, 196)
-}
+  .recipe-grid img {
+    width: 100%;  /* Makes the image width responsive to the container */
+    height: auto; /* Initially set to auto to maintain aspect ratio */
+    aspect-ratio: 1 / 1;  /* Ensures the image is always square */
+    object-fit: cover; /* Crop to cover the area, maintaining aspect ratio */
+    display: block; /* Removes extra space below the image */
+  }
+
+  @media (max-width: 600px) {
+    .recipe-grid {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .recipe-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+
+
+  h1 {
+  letter-spacing: -1px;
+  font-weight: bold;
+  color:rgb(9, 90, 9)
+  }
+
+  h2 {
+  font-weight: bold;
+  letter-spacing: -1px
+  }
+
+  tr:nth-child(even) {
+  background-color: rgb(198, 196, 196)
+  }

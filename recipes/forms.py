@@ -1,8 +1,12 @@
 from django.forms import ModelForm
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from recipes.models import Recipe
 
 
 class RecipeForm(ModelForm):
+
     class Meta:
         model = Recipe
         fields = [
@@ -12,11 +16,14 @@ class RecipeForm(ModelForm):
         ]
 
 
-class Edit_RecipeForm(ModelForm):
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(max_length=254, help_text='Required. Provide a valid email address.')
+
     class Meta:
-        model = Recipe
+        model = User
         fields = [
-            "title",
-            "picture",
-            "description",
+            "username",
+            "email",
+            "password1",
+            "password2",
         ]

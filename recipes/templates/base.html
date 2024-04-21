@@ -6,17 +6,31 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    {% block title %}{% endblock title %}
-  </title>
-  <link rel="stylesheet" href="{% static "css/recipes.css" %}">
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="stylesheet" href="{% static 'css/recipes.css' %}">
 </head>
 <body>
   <header>
     <nav>
-      <a class="one" href="{% url 'recipe_list' %}">Main Page</a>
-      {% block navbar_custom_links %}
-      {% endblock %}
+      <div class="nav-container">
+        <a class="nav-link" href="{% url 'recipe_list' %}">Main Page</a>
+        <div class="dropdown">
+          <button class="dropbtn">Menu</button>
+          <div class="dropdown-content">
+            {% if user.is_authenticated %}
+            {% block navbar_custom_links %}
+            {% endblock %}
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="nav-link">Logout</button>
+              </form>
+            {% else %}
+              <a href="{% url 'login' %}">Login</a>
+              <a href="{% url 'signup' %}">Register</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </nav>
   </header>
   <main>
