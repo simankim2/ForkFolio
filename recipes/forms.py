@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from recipes.models import Recipe
+from recipes.models import Recipe, Profile
 
 
 class RecipeForm(ModelForm):
@@ -27,3 +27,9 @@ class SignUpForm(UserCreationForm):
             "password1",
             "password2",
         ]
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['name', 'location', 'email', 'about_me']

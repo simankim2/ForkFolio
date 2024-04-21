@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block navbar_custom_links %}
+  <a class="one" href="{% url 'create_recipe' %}">Create a Recipe</a>
+{% endblock %}
+
+{% block content %}
+  <h1>{{ profile.user.username }}'s Profile</h1>
+  <p>Name: {{ profile.name }}</p>
+  <p>Location: {{ profile.location }}</p>
+  <p>Email: {{ profile.email }}</p>
+  <p>About Me: {{ profile.about_me }}</p>
+  <a href="{% url 'profile_edit' %}">Edit Profile</a>
+
+  <h2>My Recipes</h2>
+  <ul>
+    {% for recipe in recipes %}
+      <li>
+        <strong>{{ recipe.title }}</strong>
+        by <a href="{% url 'profile_view' recipe.user.username %}">{{ recipe.user.username }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

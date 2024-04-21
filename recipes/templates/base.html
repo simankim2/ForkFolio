@@ -18,6 +18,7 @@
           <button class="dropbtn">Menu</button>
           <div class="dropdown-content">
             {% if user.is_authenticated %}
+              <a href="{% url 'profile_view' %}">My Profile</a>
             {% block navbar_custom_links %}
             {% endblock %}
               <form action="{% url 'logout' %}" method="post">
