@@ -62,47 +62,44 @@ ForkFolio - Create Recipe
 {% block scripts %}
 <script>
   $(document).ready(function() {
-    var ingredientFormIndex = $('#id_ingredients-TOTAL_FORMS').val();
+      // Generic function to add a form
+      function addForm(containerId, templateId, totalFormsId) {
+          var formIndex = $(totalFormsId).val();
+          var newFormHtml = $(templateId).html().replace(/__prefix__/g, formIndex);
+          $(containerId).append(newFormHtml);
+          $(totalFormsId).val(parseInt(formIndex) + 1);
+      }
 
-    function addIngredientForm() {
-        var newForm = $('#ingredient-form-template').html().replace(/__prefix__/g, ingredientFormIndex);
-        $('#ingredient-form-container').append(newForm);
-        $('#id_ingredients-TOTAL_FORMS').val(parseInt(ingredientFormIndex) + 1);
-        ingredientFormIndex++;
-    }
+      // Generic function to remove a form
+      function removeForm(btn, totalFormsId) {
+          var formIndex = $(totalFormsId).val();
+          if (formIndex > 1) {
+              $(btn).closest('.form-row').remove();
+              formIndex--;
+              $(totalFormsId).val(formIndex);
+          }
+      }
 
-    function removeIngredientForm(btn) {
-        $(btn).closest('.ingredient-form').remove();
-        ingredientFormIndex--;
-        $('#id_ingredients-TOTAL_FORMS').val(ingredientFormIndex);
-    }
+      // Handling addition of ingredients
+      $('#add-ingredient').click(function() {
+          addForm('#ingredient-form-container', '#ingredient-form-template', '#id_ingredients-TOTAL_FORMS');
+      });
 
-    $('#add-ingredient').click(function() {
-        addIngredientForm();
-    });
+      // Handling removal of ingredients
+      $(document).on('click', '.remove-ingredient', function() {
+          removeForm(this, '#id_ingredients-TOTAL_FORMS');
+      });
 
-    $(document).on('click', '.remove-ingredient', function() {
-        removeIngredientForm(this);
-    });
+      // Handling addition of steps
+      $('#add-step').click(function() {
+          addForm('#step-form-container', '#step-form-template', '#id_steps-TOTAL_FORMS');
+      });
+
+      // Handling removal of steps
+      $(document).on('click', '.remove-step', function() {
+          removeForm(this, '#id_steps-TOTAL_FORMS');
+      });
   });
-
-    $(document).ready(function() {
-    // Define stepFormIndex in the scope accessible to the click handler
-    var stepFormIndex = parseInt($('#id_steps-TOTAL_FORMS').val(), 10) || 0; // Initialize to 0 if it's NaN
-
-    // Function to add new step form
-    $('#add-step').click(function() {
-        var newFormHtml = $('#step-form-template').html().replace(/__prefix__/g, stepFormIndex);
-        $('#step-form-container').append(newFormHtml);
-        $('#id_steps-TOTAL_FORMS').val(++stepFormIndex); // Increment the index
-    });
-
-    // Event delegation for removing a step form
-    $('#step-form-container').on('click', '.remove-step', function() {
-        $(this).closest('.step-form').remove();
-        $('#id_steps-TOTAL_FORMS').val(--stepFormIndex); // Decrement the index
-    });
-  });
-</script>
+  </script>
 
 {% endblock %}

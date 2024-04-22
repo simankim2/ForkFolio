@@ -1,11 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from recipes.models import Recipe, Profile, Ingredient, Step
-from recipes.forms import RecipeForm, ProfileForm, IngredientForm, StepForm
+from recipes.forms import RecipeForm, ProfileForm, IngredientForm, StepForm, SignUpForm, IngredientFormSet, StepFormSet
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
-from recipes.forms import SignUpForm
 from django.forms import inlineformset_factory
 
 
@@ -64,16 +63,24 @@ def create_recipe(request):
 def edit_recipe(request, id):
     recipe = get_object_or_404(Recipe, id=id)
     if request.method == "POST":
-        form = RecipeForm(request.POST, instance=recipe)
-        if form.is_valid():
+        form = RecipeForm(request.POST, request.FILES, instance=recipe)
+        ingredient_formset = IngredientFormSet(request.POST, instance=recipe)
+        step_formset = StepFormSet(request.POST, instance=recipe)
+        if form.is_valid() and ingredient_formset.is_valid() and step_formset.is_valid():
             form.save()
+            ingredient_formset.save()
+            step_formset.save()
             return redirect("show_recipe", id=id)
     else:
         form = RecipeForm(instance=recipe)
+        ingredient_formset = IngredientFormSet(instance=recipe)
+        step_formset = StepFormSet(instance=recipe)
 
     context = {
         "recipe_object": recipe,
         "form": form,
+        "ingredient_formset": ingredient_formset,
+        "step_formset": step_formset,
     }
     return render(request, "recipes/edit.html", context)
 

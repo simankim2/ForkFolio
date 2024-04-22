@@ -1,16 +1,100 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  ForkFolio recipes
+  ForkFolio Recipes
 {% endblock title %}
 
 {% block content %}
   <main>
     <h1>Edit Recipe{{ recipe.title }}</h1>
-    <form method="post">
+    <form method="post" entype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
-    <button>Save</button>
+
+      <h2>Ingredients</h2>
+      <div id="ingredient-form-container" class="formset-grid">
+        {{ ingredient_formset.management_form }}
+        {% for form in ingredient_formset %}
+          <div class="ingredient-form">
+            {{ form.as_p }}
+            <button type="button" class="remove-ingredient">Remove</button>
+          </div>
+        {% endfor %}
+      </div>
+        <button type="button" id="add-ingredient">Add Ingredient</button>
+
+        <div id="ingredient-form-template" style="display: none";>
+          <div class="ingredient-form">
+            {{ ingredient_formset.empty_form.as_p | safe }}
+            <button type="button" class="remove-ingredient">Remove</button>
+          </div>
+        </div>
+
+      <h2>Steps</h2>
+      <div id="step-form-container" class="formset-grid">
+        {{ step_formset.management_form }}
+        {% for form in step_formset %}
+          <div class="formset-row">
+            {{ form.as_p }}
+            <button type="button" class="remove-step">Remove</button>
+        </div>
+        {% endfor %}
+      </div>
+      <button type="button" id="add-step">Add Step</button>
+
+      <div id="step-form-template" style="display: none;">
+        <div class="step-form">
+          {{ step_formset.empty_form.as_p | safe }}
+          <button type="button" class="remove-step">Remove</button>
+        </div>
+      </div>
+
+        <button type="submit">Save</button>
     </form>
   </main>
 {% endblock content %}
+
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Generic function to add a form
+    function addForm(containerId, templateId, totalFormsId) {
+        var formIndex = $(totalFormsId).val();
+        var newFormHtml = $(templateId).html().replace(/__prefix__/g, formIndex);
+        $(containerId).append(newFormHtml);
+        $(totalFormsId).val(parseInt(formIndex) + 1);
+    }
+
+    // Generic function to remove a form
+    function removeForm(btn, totalFormsId) {
+        var formIndex = $(totalFormsId).val();
+        if (formIndex > 1) {
+            $(btn).closest('.form-row').remove();
+            formIndex--;
+            $(totalFormsId).val(formIndex);
+        }
+    }
+
+    // Handling addition of ingredients
+    $('#add-ingredient').click(function() {
+        addForm('#ingredient-form-container', '#ingredient-form-template', '#id_ingredients-TOTAL_FORMS');
+    });
+
+    // Handling removal of ingredients
+    $(document).on('click', '.remove-ingredient', function() {
+        removeForm(this, '#id_ingredients-TOTAL_FORMS');
+    });
+
+    // Handling addition of steps
+    $('#add-step').click(function() {
+        addForm('#step-form-container', '#step-form-template', '#id_steps-TOTAL_FORMS');
+    });
+
+    // Handling removal of steps
+    $(document).on('click', '.remove-step', function() {
+        removeForm(this, '#id_steps-TOTAL_FORMS');
+    });
+});
+</script>
+{% endblock %}
