@@ -9,7 +9,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: 'Alfa Slab One';
 }
 
 main {
@@ -17,10 +17,46 @@ main {
   padding: 10px;
 }
 
+h1 {
+  letter-spacing: 0px;
+  color: #179e17;
+  text-shadow:
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
+}
+
+h2 {
+  letter-spacing: 0px;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(198, 196, 196)
+}
+
+.nav-link.main-page-link {
+  color: #179e17;
+  font-family: 'Alfa Slab One';
+  font-size: 30px;
+  text-shadow:
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
+}
+
+
 footer {
-  font-weight: bold;
+  color: rgb(191, 62, 19);
+  font-family: 'Alfa Slab One';
   padding: 15px;
-  background-color: rgb(151, 188, 41);
+  background-color: #179e17;
+  text-shadow:
+    -1px -1px 0 white,
+     1px -1px 0 white,
+    -1px  1px 0 white,
+     1px  1px 0 white;
 }
 
 img {
@@ -37,7 +73,13 @@ img {
 }
 
 .nav-link, .dropbtn {
-  color: white;
+  color: #179e17;
+  font-family: 'Alfa Slab One';
+  text-shadow:
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
   text-decoration: none;
   padding: 14px 16px;
   display: inline-block;
@@ -93,8 +135,9 @@ img {
 }
 
 .dropdown-content form button {
-  background: none;
+  background: transparent;
   font-size: 20px;
+  font-family: inherit;
   border: none;
   color: black;
   padding: 0;
@@ -104,10 +147,6 @@ img {
   display: block;
   width: 100%;
   text-align: left;
-}
-
-.dropdown-content form button:hover {
-  text-decoration: underline;
 }
 
 /* Responsive adjustments */
@@ -180,21 +219,6 @@ img {
   aspect-ratio: 1 / 1;  /* Ensures the image is always square */
   object-fit: cover; /* Crop to cover the area, maintaining aspect ratio */
   display: block; /* Removes extra space below the image */
-}
-
-h1 {
-  letter-spacing: -1px;
-  font-weight: bold;
-  color:rgb(9, 90, 9)
-}
-
-h2 {
-  font-weight: bold;
-  letter-spacing: -1px
-}
-
-tr:nth-child(even) {
-  background-color: rgb(198, 196, 196)
 }
 
 /* Grid layout for formsets in recipes.css */
