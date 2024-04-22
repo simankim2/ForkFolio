@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  ForkFolio
+  ForkFolio - {{ recipe_object.title }}
 {% endblock %}
 
 {% block navbar_custom_links %}
@@ -11,9 +11,11 @@
 {% block content %}
   <main>
     <h1>{{ recipe_object.title }}</h1>
+    <p>Written by: <a href="{% url 'user_profile' username=recipe_object.user.username %}">{{ recipe_object.user.username }}</a></p>
     <div>4.3 stars</div>
     <p>{{ recipe_object.description }}</p>
     <img src="{{ recipe_object.picture }}" alt="Picture of {{ recipe_object.title }}">
+
     <h2>Ingredients</h2>
     <table>
       <thead>
@@ -23,32 +25,24 @@
         </tr>
       </thead>
       <tbody>
+        {% for ingredient in recipe_object.ingredients.all %}
         <tr>
-          <td>1 cup</td>
-          <td>Green beans</td>
+          <td>{{ ingredient.amount }}</td>
+          <td>{{ ingredient.item }}</td>
         </tr>
-        <tr>
-          <td>3 ears</td>
-          <td>Fresh corn</td>
-        </tr>
-        <tr>
-          <td>2 cups</td>
-          <td>Corn tortillas</td>
-        </tr>
-        <tr>
-          <td>0.5 cups</td>
-          <td>Cotija cheese</td>
-        </tr>
+        {% empty %}
+        <tr><td colspan="2">No ingredients listed.</td></tr>
+        {% endfor %}
       </tbody>
     </table>
+
     <h2>Steps</h2>
     <ol>
-      <li>Blanch the green beans</li>
-      <li>Grill the green beans and the ears of corn</li>
-      <li>Chop the green beans</li>
-      <li>Slice the corn off the cob</li>
-      <li>Grill the tortillas</li>
-      <li>Assemble the tacos with veggies, salsa, and cheese</li>
+      {% for step in recipe_object.steps.all %}
+      <li>{{ step.step_text }}</li>
+      {% empty %}
+      <li>No steps provided.</li>
+      {% endfor %}
     </ol>
   </main>
 {% endblock %}

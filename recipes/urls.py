@@ -12,7 +12,7 @@ urlpatterns = [
     path("signup/", signup, name="signup"),
     path("login/", auth_views.LoginView.as_view(template_name="recipes/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(next_page="recipe_list"), name="logout"),
-    path("profile/", profile_view, name="profile_view", kwargs={"username": None}),
-    path("profile/<str:username>/", profile_view, name="profile_view"),
     path("profile/edit/", profile_edit, name="profile_edit"),
+    path("profile/", profile_view, name="my_profile", kwargs={"username": None}),
+    path("profile/<str:username>/", profile_view, name="user_profile"),
 ]

@@ -19,7 +19,7 @@
             <a href="{% url 'show_recipe' recipe.id %}">{{ recipe.title }}</a>
           </h3>
           <img src="{{ recipe.picture }}" alt="Picture of {{ recipe.title }}" />
-          <p>Posted by: <a href="{% url "profile_view" username=recipe.user.username %}">{{ recipe.user.username }}</a></p>
+          <p>Posted by: <a href="{% url "user_profile" username=recipe.user.username %}">{{ recipe.user.username }}</a></p>
           <div>4.3 stars</div>
           <div>{{ recipe.created_on|date:"F j, Y" }}</div>
         </div>

@@ -10,14 +10,16 @@
   <p>Location: {{ profile.location }}</p>
   <p>Email: {{ profile.email }}</p>
   <p>About Me: {{ profile.about_me }}</p>
-  <a href="{% url 'profile_edit' %}">Edit Profile</a>
+  {% if user.is_authenticated and user == profile.user %}
+    <a href="{% url 'profile_edit' %}">Edit Profile</a>
+  {% endif %}
 
   <h2>My Recipes</h2>
   <ul>
     {% for recipe in recipes %}
       <li>
         <strong>{{ recipe.title }}</strong>
-        by <a href="{% url 'profile_view' recipe.user.username %}">{{ recipe.user.username }}</a>
+        by <a href="{% url 'user_profile' recipe.user.username %}">{{ recipe.user.username }}</a>
       </li>
     {% endfor %}
   </ul>

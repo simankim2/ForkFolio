@@ -12,6 +12,17 @@ class Recipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
+class Ingredient(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
+    amount = models.CharField(max_length=100)
+    item = models.CharField(max_length=100)
+
+
+class Step(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='steps', on_delete=models.CASCADE)
+    step_text = models.TextField()
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=True)
