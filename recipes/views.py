@@ -78,6 +78,15 @@ def edit_recipe(request, id):
     return render(request, "recipes/edit.html", context)
 
 
+@login_required
+def delete_recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id, user=request.user)  # Ensure that recipe belongs to the user
+    if request.method == 'POST':
+        recipe.delete()
+        return redirect('user_profile', username=request.user.username)  # Redirect to the profile page or wherever appropriate
+    return redirect('show_recipe', id=id)  # If not POST, redirect back to the recipe detail page
+
+
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)

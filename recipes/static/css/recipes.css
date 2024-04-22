@@ -131,6 +131,29 @@ img {
   padding-bottom: 50px;
   }
 
+.recipe-item {
+  display: flex;
+  align-items: center;  /* Align items vertically in the center */
+  margin-bottom: 10px;  /* Space between each recipe item */
+}
+
+.recipe-name {
+  margin-right: 20px;  /* Space between the recipe name and the delete button */
+}
+
+.recipe-delete button {
+  padding: 5px 10px;  /* Smaller padding for the button */
+  background-color: #f44336; /* Red color for the delete button */
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.recipe-delete button:hover {
+  background-color: #d32f2f; /* Slightly darker on hover */
+}
+
+
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Adjusts number of columns based on the container width */
