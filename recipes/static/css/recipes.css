@@ -5,7 +5,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-size: 20px;
+  font-size: 10px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -38,7 +38,7 @@ tr:nth-child(even) {
 .nav-link.main-page-link {
   color: #179e17;
   font-family: 'Alfa Slab One';
-  font-size: 30px;
+  font-size: 15px;
   text-shadow:
     -1px -1px 0 black,
      1px -1px 0 black,
@@ -50,7 +50,7 @@ tr:nth-child(even) {
 footer {
   color: rgb(191, 62, 19);
   font-family: 'Alfa Slab One';
-  padding: 15px;
+  padding: 10px;
   background-color: #179e17;
   text-shadow:
     -1px -1px 0 white,
@@ -68,7 +68,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: 0px;
   background-color: rgb(209, 72, 26);
 }
 
@@ -136,7 +136,7 @@ img {
 
 .dropdown-content form button {
   background: transparent;
-  font-size: 20px;
+  font-size: 10px;
   font-family: inherit;
   border: none;
   color: black;
@@ -243,4 +243,56 @@ img {
   padding: 10px;
   background-color: #f9f9f9;
   box-sizing: border-box;
+}
+
+.fa-star {
+  color: gray; /* Default star color */
+  font-size: 10px; /* Adjust as needed */
+}
+
+.fa-star.checked {
+  color: gold; /* Star color when checked */
+}
+
+label {
+  cursor: pointer;
+}
+
+.star-rating-input {
+  display: none; /* Hide the radio buttons */
+}
+
+.star-rating {
+  color: #c5c5c5; /* Color of unselected stars */
+  font-size: 10px; /* Size of stars */
+  line-height: 25px; /* Match line height to font size */
+  position: relative;
+  padding: 0;
+}
+
+.star-rating-top {
+  color: gold; /* Color of selected/filled stars */
+  position: absolute;
+  z-index: 1;
+  display: block;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.star-rating-bottom {
+  position: relative; /* Add position relative here */
+  display: block;
+  z-index: 0;
+
+}
+
+.title-and-rating {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.recipe-title {
+  margin-right: 10px;
 }

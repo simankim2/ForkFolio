@@ -12,6 +12,16 @@ class Recipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
+class Rating(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='ratings', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    stars = models.IntegerField()
+
+    class Meta:
+        unique_together = (('user', 'recipe'),)
+        index_together = (('user', 'recipe'),)
+
+
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
     amount = models.CharField(max_length=100)

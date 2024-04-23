@@ -1,23 +1,41 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from recipes.models import Recipe, Profile, Ingredient, Step
-from recipes.forms import RecipeForm, ProfileForm, IngredientForm, StepForm, SignUpForm, IngredientFormSet, StepFormSet
+from recipes.models import Recipe, Profile, Ingredient, Step, Rating
+from recipes.forms import RecipeForm, ProfileForm, IngredientForm, StepForm, SignUpForm, IngredientFormSet, StepFormSet, RatingForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.forms import inlineformset_factory
+from django.db.models import Avg
 
 
 def show_recipe(request, id):
     recipe = get_object_or_404(Recipe, id=id)
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            Rating.objects.update_or_create(
+                user=request.user,
+                recipe=recipe,
+                defaults={'stars': form.cleaned_data['stars']}
+            )
+        return redirect('show_recipe', id=recipe.id)
+    else:
+        form = RatingForm()
+
+    average_rating_result = recipe.ratings.aggregate(average=Avg('stars'))
+    average_rating = average_rating_result['average'] if average_rating_result['average'] is not None else "No ratings yet"
+
     context = {
         "recipe_object": recipe,
+        "rating_form": form,
+        "average_rating": average_rating if average_rating is not None else "No ratings yet",
     }
     return render(request, "recipes/detail.html", context)
 
 
 def recipe_list(request):
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.annotate(avg_rating=Avg('ratings__stars'))
     context = {
         "recipe_list": recipes,
     }
@@ -62,6 +80,9 @@ def create_recipe(request):
 @login_required
 def edit_recipe(request, id):
     recipe = get_object_or_404(Recipe, id=id)
+    if recipe.user != request.user:
+        return HttpResponseForbidden("You are not allowed to edit this recipe.")
+
     if request.method == "POST":
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
         ingredient_formset = IngredientFormSet(request.POST, instance=recipe)

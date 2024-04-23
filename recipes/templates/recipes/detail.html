@@ -1,18 +1,38 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block title %}
   ForkFolio - {{ recipe_object.title }}
 {% endblock %}
 
 {% block navbar_custom_links %}
-  <a class="one" href="{% url 'edit_recipe' id=recipe_object.id %}">Edit Recipe</a>
+  {% if user.is_authenticated and recipe_object.user == user %}
+    <a class="one" href="{% url 'edit_recipe' id=recipe_object.id %}">Edit Recipe</a>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
   <main>
-    <h1>{{ recipe_object.title }}</h1>
+    <div class="title-and-rating">
+      <h1 class="recipe-title">{{ recipe_object.title }}</h1>
+      <div class="star-rating">
+        <div class="star-rating-top" style="width: {{ average_rating|floatformat:2|multiply:20 }}%">
+          <span>★★★★★</span>
+        </div>
+        <div class="star-rating-bottom">
+          <span>★★★★★</span>
+        </div>
+      </div>
+    </div>
+    <form method="post" action="{% url 'show_recipe' id=recipe_object.id %}">
+      {% csrf_token %}
+      {% for star in "12345" %}
+      <input type="radio" name="stars" value="{{ forloop.counter }}" id='star{{ forloop.counter }}' class='star-rating-input' {% if forloop.counter == form.stars.value  %}checked{% endif %}/>
+      <label for="star{{ forloop.counter }}"><i class="fa fa-star"></i></label>
+      {% endfor %}
+      <button type="submit">Rate</button>
+    </form>
     <p>Written by: <a href="{% url 'user_profile' username=recipe_object.user.username %}">{{ recipe_object.user.username }}</a></p>
-    <div>4.3 stars</div>
     <p>{{ recipe_object.description }}</p>
     <img src="{{ recipe_object.picture }}" alt="Picture of {{ recipe_object.title }}">
 
@@ -45,4 +65,51 @@
       {% endfor %}
     </ol>
   </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(function() {
+      // Initialize stars based on average rating
+      setInitialStars({{ average_rating|default_if_none:"0" }});
+
+      // Update stars on change
+      $('.star-rating-input').change(function() {
+          updateStars($(this).val());
+      });
+
+      // Function to update stars
+      function updateStars(rating) {
+          $('.star-rating-input').each(function() {
+              var starLabel = $('label[for="' + $(this).attr('id') + '"] .fa');
+              if (parseInt($(this).val()) <= rating) {
+                  starLabel.addClass('checked');
+              } else {
+                  starLabel.removeClass('checked');
+              }
+          });
+      }
+
+      // Function to set initial stars based on average rating
+      function setInitialStars(averageRating) {
+          $('.star-rating-input').each(function() {
+              var starLabel = $('label[for="' + $(this).attr('id') + '"] .fa');
+              if (parseInt($(this).val()) <= averageRating) {
+                  starLabel.addClass('checked');
+              } else {
+                  starLabel.removeClass('checked');
+              }
+          });
+      }
+
+      // Update stars on hover
+      $('label').hover(function() {
+          var associatedInputValue = $('#' + $(this).attr('for')).val();
+          updateStars(associatedInputValue);
+      }, function() {
+          var checkedValue = $('.star-rating-input:checked').val() || 0;
+          updateStars(checkedValue);
+      });
+  });
+</script>
 {% endblock %}

@@ -126,3 +126,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 
 LOGIN_REDIRECT_URL = 'recipe_list'  # Use the name of the URL pattern for your main page
+LOGIN_URL = 'login'

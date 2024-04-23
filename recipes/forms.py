@@ -2,7 +2,7 @@ from django.forms import ModelForm, inlineformset_factory
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from recipes.models import Recipe, Profile, Ingredient, Step
+from recipes.models import Recipe, Profile, Ingredient, Step, Rating
 
 
 class RecipeForm(ModelForm):
@@ -14,6 +14,12 @@ class RecipeForm(ModelForm):
             "picture",
             "description",
         ]
+
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ['stars']
 
 
 class IngredientForm(forms.ModelForm):

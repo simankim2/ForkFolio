@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block title %}
   ForkFolio Recipes
@@ -11,7 +12,6 @@
 {% block content %}
   <main>
     <h1>ForkFolio Recipes</h1>
-    <h2>All the food that's fit to eat</h2>
     <div class="recipe-grid">
       {% for recipe in recipe_list %}
         <div class="recipe-grid">
@@ -20,7 +20,16 @@
           </h3>
           <img src="{{ recipe.picture }}" alt="Picture of {{ recipe.title }}" />
           <p>Posted by: <a href="{% url "user_profile" username=recipe.user.username %}">{{ recipe.user.username }}</a></p>
-          <div>4.3 stars</div>
+          <div class="title-and-rating">
+            <div class="star-rating">
+              <div class="star-rating-top" style="width: {{ recipe.avg_rating|default:'0'|floatformat:2|multiply:20 }}%">
+                <span>★★★★★</span>
+              </div>
+              <div class="star-rating-bottom">
+                <span>★★★★★</span>
+              </div>
+            </div>
+          </div>
           <div>{{ recipe.created_on|date:"F j, Y" }}</div>
         </div>
       {% empty %}
