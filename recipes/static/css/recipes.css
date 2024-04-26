@@ -264,10 +264,11 @@ label {
 
 .star-rating {
   color: #c5c5c5; /* Color of unselected stars */
-  font-size: 10px; /* Size of stars */
+  font-size: 18px; /* Size of stars */
   line-height: 25px; /* Match line height to font size */
   position: relative;
   padding: 0;
+  display: inline-block;
 }
 
 .star-rating-top {
@@ -327,4 +328,12 @@ label {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+textarea[name="review_text"] {
+  width: 100%;
+  min-height: 100px;
+  padding: 8px;        /* Space inside the box */
+  border: 1px solid #ccc; /* Border around the textarea */
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }

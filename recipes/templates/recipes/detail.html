@@ -36,7 +36,7 @@
           <input type="radio" name="stars" value="{{ forloop.counter }}" id='star{{ forloop.counter }}' class='star-rating-input' {% if forloop.counter == form.stars.value  %}checked{% endif %}/>
           <label for="star{{ forloop.counter }}"><i class="fa fa-star"></i></label>
           {% endfor %}
-          <textarea name="review_text" placeholder="Write your review here..."></textarea>
+          <div><textarea name="review_text" placeholder="Write your review here..."></textarea></div>
           <button type="submit">Submit Review</button>
         </form>
       </div>
@@ -74,22 +74,29 @@
       <li>No steps provided.</li>
       {% endfor %}
     </ol>
-    <!-- Reviews Section -->
-    <div class="reviews-section">
-      <h2>Reviews</h2>
+    <h2>Reviews</h2>
       {% if reviews.exists %}
-          <ul>
-              {% for review in reviews %}
-                  <li>
-                      <strong>{{ review.user.username }}:</strong> {{ review.review_text }}
-                      on <span>{{ review.review_date|date:"Y-m-d H:i" }}</span>
-                  </li>
-              {% endfor %}
-          </ul>
+        <ul>
+          {% for review in reviews %}
+            <li>
+              <p>{{ review.user.username }}</p>
+              <div class="star-rating">
+                <div class="star-rating-top" style="width: {{ review.stars|multiply:20 }}%">
+                  <span>★★★★★</span>
+                </div>
+                <div class="star-rating-bottom">
+                  <span>★★★★★</span>
+                </div>
+              </div>
+              {{ review.review_text }}
+              <p>Reviewed: <span>{{ review.review_date|date:"F j, Y" }}</span></p>
+            </li>
+          {% endfor %}
+        </ul>
       {% else %}
-          <p>No reviews yet.</p>
+        <p>No reviews yet.</p>
       {% endif %}
-  </div>
+    </div>
   </main>
 {% endblock %}
 
