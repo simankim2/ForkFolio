@@ -17,7 +17,10 @@ def show_recipe(request, id):
             Rating.objects.update_or_create(
                 user=request.user,
                 recipe=recipe,
-                defaults={'stars': form.cleaned_data['stars']}
+                defaults={
+                    'stars': form.cleaned_data['stars'],
+                    'comment': form.cleaned_data.get('comment', '')
+                }
             )
         return redirect('show_recipe', id=recipe.id)
     else:
@@ -30,6 +33,7 @@ def show_recipe(request, id):
         "recipe_object": recipe,
         "rating_form": form,
         "average_rating": average_rating if average_rating is not None else "No ratings yet",
+        "ratings": recipe.ratings.all()
     }
     return render(request, "recipes/detail.html", context)
 

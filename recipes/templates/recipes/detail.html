@@ -24,6 +24,7 @@
         </div>
       </div>
     </div>
+    {% if user.is_authenticated and not user == recipe_object.user %}
     <form method="post" action="{% url 'show_recipe' id=recipe_object.id %}">
       {% csrf_token %}
       {% for star in "12345" %}
@@ -32,6 +33,7 @@
       {% endfor %}
       <button type="submit">Rate</button>
     </form>
+    {% endif %}
     <p>Written by: <a href="{% url 'user_profile' username=recipe_object.user.username %}">{{ recipe_object.user.username }}</a></p>
     <p>{{ recipe_object.description }}</p>
     <img src="{{ recipe_object.picture }}" alt="Picture of {{ recipe_object.title }}">
@@ -71,7 +73,7 @@
 <script>
   $(document).ready(function() {
       // Initialize stars based on average rating
-      setInitialStars({{ average_rating|default_if_none:"0" }});
+      setInitialStars($('.star-rating-input:checked').val() || 0);
 
       // Update stars on change
       $('.star-rating-input').change(function() {
