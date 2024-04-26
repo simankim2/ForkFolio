@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from .views import signup
 from recipes.views import show_recipe, recipe_list, create_recipe, edit_recipe, delete_recipe, profile_view, profile_edit
@@ -17,3 +19,6 @@ urlpatterns = [
     path("profile/", profile_view, name="my_profile", kwargs={"username": None}),
     path("profile/<str:username>/", profile_view, name="user_profile"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

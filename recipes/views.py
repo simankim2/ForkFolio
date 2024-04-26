@@ -123,9 +123,13 @@ def delete_recipe(request, id):
 
 def signup(request):
     if request.method == "POST":
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
+            profile = Profile.objects.create(user=user)
+            if "profile_picture" in request.FILES:
+                profile.profile_picture = request.FILES["profile_picture"]
+                profile.save()
             login(request, user)
             return redirect("recipe_list")
     else:
@@ -152,10 +156,15 @@ def profile_edit(request):
 
     profile = get_object_or_404(Profile, user=request.user)
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
-            form.save()
-            return redirect('profile_view', username=request.user.username)
+            profile = form.save(commit=False)
+            if 'profile_picture' in request.FILES:
+                profile.profile_picture = request.FILES['profile_picture']
+            if form.cleaned_data['profile_picture_url']:
+                profile.profile_picture_url = form.cleaned_data['profile_picture_url']
+            profile.save()
+            return redirect('user_profile', username=request.user.username)
     else:
         form = ProfileForm(instance=profile)
     return render(request, 'recipes/profile_edit.html', {'form': form})

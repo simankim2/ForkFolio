@@ -1,4 +1,4 @@
-from django.forms import ModelForm, inlineformset_factory
+from django.forms import ModelForm, inlineformset_factory, ImageField, URLField
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -53,6 +53,7 @@ StepFormSet = inlineformset_factory(
 
 
 class SignUpForm(UserCreationForm):
+    profile_picture = forms.ImageField(required=False, help_text='Optional. Upload a profile picture.')
     email = forms.EmailField(max_length=254, help_text='Required. Provide a valid email address.')
 
     class Meta:
@@ -62,10 +63,22 @@ class SignUpForm(UserCreationForm):
             "email",
             "password1",
             "password2",
+            "profile_picture"
         ]
 
 
 class ProfileForm(ModelForm):
+    profile_picture = ImageField(required=False)
+    profile_picture_url = URLField(required=False, help_text='Optional. Provide a URL for your profile picture.')
+
     class Meta:
         model = Profile
-        fields = ['name', 'location', 'email', 'about_me']
+        fields = ['name', 'location', 'email', 'about_me', 'profile_picture', 'profile_picture_url']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        picture = cleaned_data.get('profile_picture')
+        picture_url = cleaned_data.get('profile_picture_url')
+        if not picture and not picture_url:
+            raise forms.ValidationError("You must provide either a profile picture or a URL.")
+        return cleaned_data

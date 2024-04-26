@@ -42,6 +42,8 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, blank=True)
     email = models.EmailField(blank=True)
     about_me = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    profile_picture_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
