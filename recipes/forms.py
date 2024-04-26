@@ -19,7 +19,7 @@ class RecipeForm(ModelForm):
 class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
-        fields = ['stars']
+        fields = ['stars', 'review_text']
 
 
 class IngredientForm(forms.ModelForm):

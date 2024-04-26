@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 
 class Recipe(models.Model):
@@ -16,7 +17,8 @@ class Rating(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='ratings', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     stars = models.IntegerField()
-    comment = models.TextField(blank=True)
+    review_text = models.TextField(blank=True, null=True)
+    review_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         unique_together = (('user', 'recipe'),)

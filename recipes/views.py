@@ -11,6 +11,7 @@ from django.db.models import Avg
 
 def show_recipe(request, id):
     recipe = get_object_or_404(Recipe, id=id)
+    reviews = recipe.ratings.all().order_by('-review_date')
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
@@ -19,7 +20,7 @@ def show_recipe(request, id):
                 recipe=recipe,
                 defaults={
                     'stars': form.cleaned_data['stars'],
-                    'comment': form.cleaned_data.get('comment', '')
+                    'review_text': form.cleaned_data.get('review_text')
                 }
             )
         return redirect('show_recipe', id=recipe.id)
@@ -33,7 +34,8 @@ def show_recipe(request, id):
         "recipe_object": recipe,
         "rating_form": form,
         "average_rating": average_rating if average_rating is not None else "No ratings yet",
-        "ratings": recipe.ratings.all()
+        "ratings": recipe.ratings.all(),
+        "reviews": reviews
     }
     return render(request, "recipes/detail.html", context)
 

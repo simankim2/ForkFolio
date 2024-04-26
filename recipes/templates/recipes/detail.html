@@ -25,14 +25,22 @@
       </div>
     </div>
     {% if user.is_authenticated and not user == recipe_object.user %}
-    <form method="post" action="{% url 'show_recipe' id=recipe_object.id %}">
-      {% csrf_token %}
-      {% for star in "12345" %}
-      <input type="radio" name="stars" value="{{ forloop.counter }}" id='star{{ forloop.counter }}' class='star-rating-input' {% if forloop.counter == form.stars.value  %}checked{% endif %}/>
-      <label for="star{{ forloop.counter }}"><i class="fa fa-star"></i></label>
-      {% endfor %}
-      <button type="submit">Rate</button>
-    </form>
+    <button id='rateBtn'>Rate this Recipe</button>
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form method="post" action="{% url 'show_recipe' id=recipe_object.id %}">
+          {% csrf_token %}
+          {% for star in "12345" %}
+          <input type="radio" name="stars" value="{{ forloop.counter }}" id='star{{ forloop.counter }}' class='star-rating-input' {% if forloop.counter == form.stars.value  %}checked{% endif %}/>
+          <label for="star{{ forloop.counter }}"><i class="fa fa-star"></i></label>
+          {% endfor %}
+          <textarea name="review_text" placeholder="Write your review here..."></textarea>
+          <button type="submit">Submit Review</button>
+        </form>
+      </div>
+    </div>
     {% endif %}
     <p>Written by: <a href="{% url 'user_profile' username=recipe_object.user.username %}">{{ recipe_object.user.username }}</a></p>
     <p>{{ recipe_object.description }}</p>
@@ -66,6 +74,22 @@
       <li>No steps provided.</li>
       {% endfor %}
     </ol>
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+      <h2>Reviews</h2>
+      {% if reviews.exists %}
+          <ul>
+              {% for review in reviews %}
+                  <li>
+                      <strong>{{ review.user.username }}:</strong> {{ review.review_text }}
+                      on <span>{{ review.review_date|date:"Y-m-d H:i" }}</span>
+                  </li>
+              {% endfor %}
+          </ul>
+      {% else %}
+          <p>No reviews yet.</p>
+      {% endif %}
+  </div>
   </main>
 {% endblock %}
 
@@ -112,6 +136,25 @@
           var checkedValue = $('.star-rating-input:checked').val() || 0;
           updateStars(checkedValue);
       });
+
+      // Modal interaction
+      var modal = document.getElementById('reviewModal');
+      var btn = document.getElementById('rateBtn');
+      var span = document.getElementsByClassName('close')[0];
+
+      btn.onclick = function() {
+          modal.style.display = "block";
+      }
+
+      span.onclick = function() {
+          modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
   });
 </script>
 {% endblock %}
