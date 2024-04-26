@@ -77,8 +77,4 @@ class ProfileForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        picture = cleaned_data.get('profile_picture')
-        picture_url = cleaned_data.get('profile_picture_url')
-        if not picture and not picture_url:
-            raise forms.ValidationError("You must provide either a profile picture or a URL.")
         return cleaned_data
