@@ -48,7 +48,7 @@ tr:nth-child(even) {
 
 
 footer {
-  color: rgb(191, 62, 19);
+  color: #BF3E13;
   font-family: 'Alfa Slab One';
   padding: 10px;
   background-color: #179e17;
@@ -57,10 +57,13 @@ footer {
      1px -1px 0 white,
     -1px  1px 0 white,
      1px  1px 0 white;
+   background-image: linear-gradient(to right, #179e17, #093e09);
 }
 
 img {
   height: 200px;
+  border: 1px solid #ccc; /* Light grey border */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
 }
 
 /* Navbar styles */
@@ -69,7 +72,7 @@ img {
   justify-content: space-between;
   align-items: center;
   padding: 0px;
-  background-color: rgb(209, 72, 26);
+  background-image: linear-gradient(to right, #df4c02, #df4c02)
 }
 
 .nav-link, .dropbtn {
@@ -151,14 +154,21 @@ img {
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-  .recipe-grid {
+  .recipe-list {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
 
 @media (min-width: 1200px) {
-  .recipe-grid {
+  .recipe-list {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .recipe-card {
+      width: 100%; /* Full width on smaller screens */
+      margin-bottom: 20px;
   }
 }
 
@@ -193,27 +203,30 @@ img {
 }
 
 
-.recipe-grid {
+.recipe-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Adjusts number of columns based on the container width */
-  grid-gap: 5px;  /* Minimal gap between grid items */
-  padding-top: 10px;
+  grid-gap: 25px 15px;  /* Minimal gap between grid items */
+  padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.recipe-grid > div {
+.recipe-card {
+  border: 1px solid #ccc; /* Light grey border */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
   display: flex;
   flex-direction: column;
   justify-content: start; /* Aligns content to start */
   align-items: center;  /* Centers the content horizontally */
   max-width: 100%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  background: white;
+  padding: 5px;
+  background: rgb(237, 232, 232);
   height: 100%;  /* Each item takes full height of the grid cell */
 }
 
-.recipe-grid img {
+.recipe-card img {
+  border: 1px solid #ccc; /* Light grey border */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
   width: 100%;  /* Makes the image width responsive to the container */
   height: auto; /* Initially set to auto to maintain aspect ratio */
   aspect-ratio: 1 / 1;  /* Ensures the image is always square */

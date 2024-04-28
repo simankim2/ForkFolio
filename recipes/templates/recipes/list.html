@@ -12,9 +12,9 @@
 {% block content %}
   <main>
     <h1>ForkFolio Recipes</h1>
-    <div class="recipe-grid">
+    <div class="recipe-list">
       {% for recipe in recipe_list %}
-        <div class="recipe-grid">
+        <div class="recipe-card">
           <h3>
             <a href="{% url 'show_recipe' recipe.id %}">{{ recipe.title }}</a>
           </h3>
